@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"runtime/debug"
+	"strings"
+	"unicode/utf8"
 )
 
 // Writes an error message and the stack trace to errorLog,
@@ -25,4 +27,24 @@ func (app *application) clientError(writer http.ResponseWriter, status int) {
 // Not Found to the user.
 func (app *application) notFound(writer http.ResponseWriter) {
 	app.clientError(writer, http.StatusNotFound)
+}
+
+func (app *application) validateRecipeInput(name, ingredients, method string) (bool, map[string]string) {
+	errors := make(map[string]string)
+
+	if strings.TrimSpace(name) == "" {
+		errors["name"] = "This field cannot be blank."
+	} else if utf8.RuneCountInString(name) > 200 {
+		errors["name"] = "This field is too long (maximum is 200 characters)"
+	}
+
+	if strings.TrimSpace(ingredients) == "" {
+		errors["ingredients"] = "This field cannot be blank"
+	}
+
+	if len(errors) > 0 {
+		return false, errors
+	}
+
+	return true, nil
 }

@@ -53,13 +53,17 @@ func (app *application) addRecipe(writer http.ResponseWriter, request *http.Requ
 	ingredients := request.PostForm.Get("ingredients")
 	method := request.PostForm.Get("method")
 
+	ok, errors := app.validateRecipeInput(name, ingredients, method)
+	if !ok {
+		fmt.Fprint(writer, errors)
+		return
+	}
+
 	id, err := app.recipes.Insert(name, ingredients, method)
 	if err != nil {
 		app.serverError(writer, err)
 		return
 	}
-
-	app.infoLog.Println("Successfully added recipe.")
 
 	http.Redirect(writer, request, fmt.Sprintf("/recipe?id=%d", id), http.StatusSeeOther)
 }
