@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+
+	"github.com/dantdj/RecipeBook/pkg/models"
 )
 
 func (app *application) ping(writer http.ResponseWriter, request *http.Request) {
@@ -16,6 +18,18 @@ func (app *application) showRecipe(writer http.ResponseWriter, request *http.Req
 		app.serverError(writer, err)
 		return
 	}
-	fmt.Fprintf(writer, "Will display recipe with ID %d in future...", id)
+
+	recipe, err := app.recipes.Get(id)
+	if err != nil {
+		if errors.Is(err, models.ErrNoRecord) {
+			app.notFound(writer)
+		} else {
+			app.serverError(writer, err)
+		}
+
+		return
+	}
+	recipeJson, _ := json.Marshal(recipe)
+	fmt.Fprintf(writer, string(recipeJson))
 }
 
