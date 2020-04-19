@@ -1,8 +1,13 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
 
-func (app *application) routes() *http.ServeMux {
+	"github.com/justinas/alice"
+)
+
+func (app *application) routes() http.Handler {
+	standardMiddleware := alice.New(secureHeaders)
 	mux := http.NewServeMux()
 
 	// Status
@@ -12,5 +17,5 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("/recipe", app.showRecipe)
 	mux.HandleFunc("/recipe/add", app.addRecipe)
 
-	return mux
+	return standardMiddleware.Then(mux)
 }
