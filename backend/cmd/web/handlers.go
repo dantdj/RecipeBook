@@ -31,7 +31,7 @@ func (app *application) showRecipe(writer http.ResponseWriter, request *http.Req
 
 		return
 	}
-
+	writer.Header().Set("Access-Control-Allow-Origin", "*")
 	recipeJson, _ := json.Marshal(recipe)
 	fmt.Fprintf(writer, string(recipeJson))
 }
