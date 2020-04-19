@@ -7,7 +7,7 @@ import (
 )
 
 func (app *application) routes() http.Handler {
-	standardMiddleware := alice.New(secureHeaders)
+	standardMiddleware := alice.New(app.logRequest, secureHeaders)
 	mux := http.NewServeMux()
 
 	// Status
