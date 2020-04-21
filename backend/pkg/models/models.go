@@ -14,3 +14,13 @@ type Recipe struct {
 	Method      string    `json:"method"`
 	Created     time.Time `json:"created"`
 }
+
+type AddRecipeResponse struct {
+	ID int `json:"id"`
+}
+
+type AddRecipeRequest struct {
+	Name        string `json:"name"`
+	Ingredients string `json:"ingredients"`
+	Method      string `json:"method"`
+}

@@ -15,6 +15,8 @@ class TitleBar extends Component<Props, State> {
       <Link to="/" className="title">RecipeBook</Link>
 
       <Link to={"/recipe/3"}>Recipe 3</Link>
+
+      <Link to={"/addrecipe"}>Add Recipe</Link>
       </>
     );
   }

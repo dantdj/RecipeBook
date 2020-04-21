@@ -43,27 +43,29 @@ func (app *application) addRecipe(writer http.ResponseWriter, request *http.Requ
 		return
 	}
 
-	err := request.ParseForm()
+	writer.Header().Set("Access-Control-Allow-Origin", "*")
+
+	var recipe models.AddRecipeRequest
+
+	err := json.NewDecoder(request.Body).Decode(&recipe)
 	if err != nil {
-		app.clientError(writer, http.StatusBadRequest)
+		app.clientError(writer, 400)
 		return
 	}
 
-	name := request.PostForm.Get("name")
-	ingredients := request.PostForm.Get("ingredients")
-	method := request.PostForm.Get("method")
-
-	ok, errors := app.validateRecipeInput(name, ingredients, method)
+	ok, errors := app.validateRecipeInput(recipe.Name, recipe.Ingredients, recipe.Method)
 	if !ok {
 		fmt.Fprint(writer, errors)
 		return
 	}
 
-	id, err := app.recipes.Insert(name, ingredients, method)
+	id, err := app.recipes.Insert(recipe.Name, recipe.Ingredients, recipe.Method)
 	if err != nil {
 		app.serverError(writer, err)
 		return
 	}
+	returnObject := models.AddRecipeResponse{id}
+	idJson, _ := json.Marshal(returnObject)
 
-	http.Redirect(writer, request, fmt.Sprintf("/recipe?id=%d", id), http.StatusSeeOther)
+	fmt.Fprintf(writer, string(idJson))
 }
