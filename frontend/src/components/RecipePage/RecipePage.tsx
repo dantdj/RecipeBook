@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from "axios";
 import "./RecipePage.css"
 import { RouteComponentProps } from 'react-router-dom';
+import Loading from '../Loading/Loading';
 
 interface HomeRouterProps {
     id: string
@@ -12,6 +13,7 @@ interface Props extends RouteComponentProps<HomeRouterProps> {
 
 interface State {
   recipe: Recipe
+  loaded: boolean
 }
 
 interface Recipe {
@@ -25,19 +27,22 @@ class RecipePage extends Component<Props, State> {
 
   constructor(props: any) {
     super(props)
-    this.state = {recipe: {name: "default"}}
+    this.state = {recipe: {}, loaded: false}
   }
 
   componentDidMount() {
     axios.get("http://localhost:4000/recipe?id=" + this.props.match.params.id, 
     ).then(response => {
-      this.setState({recipe: response.data})
+      this.setState({recipe: response.data, loaded: false})
     }).catch(error => {
       console.log("Failed to call API: " + error)
     })
   }
 
   render() {
+    if (!this.state.loaded) {
+      return <Loading />
+    }
     return (
       <div className="App">
         <header className="App-header">

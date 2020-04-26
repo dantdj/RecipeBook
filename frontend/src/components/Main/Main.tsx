@@ -14,7 +14,7 @@ class Main extends Component {
                     <div className="content">
                         <Route exact path="/" component={HomePage} />
                         <Route exact path="/addrecipe" component={CreateRecipePage} /> 
-                        <Route path="/recipe/:id" component={RecipePage} />} />
+                        <Route path="/recipe/:id" component={RecipePage} />
                     </div>
                 </div>
             </HashRouter>
