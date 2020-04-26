@@ -33,7 +33,7 @@ class RecipePage extends Component<Props, State> {
   componentDidMount() {
     axios.get("http://localhost:4000/recipe?id=" + this.props.match.params.id, 
     ).then(response => {
-      this.setState({recipe: response.data, loaded: false})
+      this.setState({recipe: response.data, loaded: true})
     }).catch(error => {
       console.log("Failed to call API: " + error)
     })
