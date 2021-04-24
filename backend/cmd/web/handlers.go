@@ -65,3 +65,11 @@ func (app *application) addRecipe(writer http.ResponseWriter, request *http.Requ
 
 	fmt.Fprintf(writer, string(idJson))
 }
+
+func (app *application) serveImage(writer http.ResponseWriter, request *http.Request) {
+	fmt.Fprintln(writer, "OK!")
+}
+
+func (app *application) resizeImage(writer http.ResponseWriter, request *http.Request) {
+	fmt.Fprintln(writer, "OK!")
+}

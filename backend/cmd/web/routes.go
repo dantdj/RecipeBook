@@ -17,5 +17,9 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("/recipe", app.showRecipe)
 	mux.HandleFunc("/recipe/add", app.addRecipe)
 
+	// Image operations
+	mux.HandleFunc("/image", app.serveImage)
+	mux.HandleFunc("/image/resize", app.resizeImage)
+
 	return standardMiddleware.Then(mux)
 }
