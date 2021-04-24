@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/dantdj/RecipeBook/pkg/models"
 )
@@ -15,13 +14,10 @@ func (app *application) ping(writer http.ResponseWriter, request *http.Request) 
 }
 
 func (app *application) showRecipe(writer http.ResponseWriter, request *http.Request) {
-	id, err := strconv.Atoi(request.URL.Query().Get("id"))
-	if err != nil || id < 1 {
-		app.serverError(writer, err)
-		return
-	}
+	id := request.URL.Query().Get("id")
 
 	recipe, err := app.recipes.Get(id)
+
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecord) {
 			app.notFound(writer)
@@ -59,7 +55,7 @@ func (app *application) addRecipe(writer http.ResponseWriter, request *http.Requ
 		return
 	}
 
-	id, err := app.recipes.Insert(recipe.Name, recipe.Ingredients, recipe.Method)
+	id, err := app.recipes.Insert("default", recipe.Name, recipe.Ingredients, recipe.Method)
 	if err != nil {
 		app.serverError(writer, err)
 		return
