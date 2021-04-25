@@ -6,14 +6,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/discordapp/lilliput"
+	"github.com/discord/lilliput"
 )
 
 // Default encoding options for different filetypes.
 var EncodeOptions = map[string]map[int]int{
-	".jpeg": {lilliput.JpegQuality: 85},
-	".png":  {lilliput.PngCompression: 7},
-	".webp": {lilliput.WebpQuality: 85},
+	//".jpeg": {lilliput.JpegQuality: 85},
+	//".png":  {lilliput.PngCompression: 7},
+	//".webp": {lilliput.WebpQuality: 85},
 }
 
 // Resizes images provided in a byte array to the specified outputWidth and outputHeight.
