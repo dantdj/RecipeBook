@@ -60,7 +60,7 @@ func (app *application) addRecipe(writer http.ResponseWriter, request *http.Requ
 		app.serverError(writer, err)
 		return
 	}
-	returnObject := models.AddRecipeResponse{id}
+	returnObject := models.AddRecipeResponse{Id: id}
 	idJson, _ := json.Marshal(returnObject)
 
 	fmt.Fprintf(writer, string(idJson))

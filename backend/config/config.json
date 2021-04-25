@@ -1,0 +1,6 @@
+  
+{
+    "mongo": {
+        "connectionString": "mongodb://recipestore:FAXCJMl1e32u4yYBPFhbOBJbAbbEHlGPSH1u09x02fxgBO5BZTK9fNpVN7NDKf399aYJVJ3dwjIF1uxImju7Mw==@recipestore.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@recipestore@"
+    }
+}
